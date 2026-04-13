@@ -37,6 +37,7 @@ public class WindowsPackCommand : PackCommand
 
     public string MsiBanner { get; private set; }
     public string MsiLogo { get; private set; }
+    public string MsiLocale { get; private set; }
 
 
     public bool BuildMsi { get; private set; }
@@ -142,6 +143,10 @@ public class WindowsPackCommand : PackCommand
                 .SetDescription("Set the background logo bitmap image for the MSI UI dialogs. The resolution must be 493x312.")
                 .RequiresExtension(".bmp")
                 .SetArgumentHelpName("PATH");
+
+            AddOption<string>(v => MsiLocale = v, "--msiLocale")
+                .SetDefault("en-US")
+                .SetDescription("Set the local of the MSI. en-US or ja-JP is accepted.");
         }
     }
 }

@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Msi\Templates\MsiLocale_en_US.hbs" />
+    <EmbeddedResource Include="Msi\Templates\MsiLocale_ja_JP.hbs" />
     <EmbeddedResource Include="Msi\Templates\MsiTemplate.hbs" />
   </ItemGroup>
 

@@ -23,7 +23,7 @@ public static class MsiBuilder
             throw new ArgumentNullException(nameof(data));
 
         var templateContent = GetResourceContent("MsiTemplate.hbs");
-        var localeContent = GetResourceContent("MsiLocale_en_US.hbs");
+        var localeContent = GetResourceContent("MsiLocale_" + data.Locale.Replace('-', '_') + ".hbs");
 
         var template = Handlebars.Compile(templateContent);
         var locale = Handlebars.Compile(localeContent);
@@ -146,6 +146,7 @@ public static class MsiBuilder
             ReadmeMessage = GetPlainTextMessage(options.InstReadme),
             WelcomeMessage = GetPlainTextMessage(options.InstWelcome),
             LicenseRtfFilePath = GetLicenseRtfPath(options.InstLicense, portableDir.Parent),
+            Locale = options.MsiLocale
         };
     }
 
@@ -158,7 +159,7 @@ public static class MsiBuilder
         using var _1 = TempUtil.GetTempDirectory(out var outputDir);
         var wixId = data.WixId;
         var wxsPath = Path.Combine(outputDir, wixId + ".wxs");
-        var localizationPath = Path.Combine(outputDir, wixId + "_en-US.wxs");
+        var localizationPath = Path.Combine(outputDir, wixId + "_" + data.Locale.Replace('-', '_') + ".wxs");
 
         var (wxsContent, localizationContent) = GenerateWixTemplate(data);
 
@@ -176,7 +177,7 @@ public static class MsiBuilder
         //https://docs.firegiant.com/wix/tools/wixext/wixui/
         var buildCommand =
             $"\"{HelperFile.WixPath}\" build -arch {wixArch} -outputType Package " +
-            $"-pdbType none {string.Join(" ", wixExtensions.Select(x => $"-ext \"{x}\""))} -loc \"{localizationPath}\" -out \"{outputFilePath}\" \"{wxsPath}\"";
+            $"-pdbType none {string.Join(" ", wixExtensions.Select(x => $"-ext \"{x}\""))} -loc \"{localizationPath}\" -culture \"{data.Locale}\" -out \"{outputFilePath}\" \"{wxsPath}\"";
 
         _ = Exe.RunHostedCommand(buildCommand);
 

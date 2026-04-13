@@ -57,4 +57,6 @@ public class MsiTemplateData
 
     public bool HasSideBannerImage => !string.IsNullOrWhiteSpace(SideBannerImagePath) && File.Exists(SideBannerImagePath);
     public string SideBannerImagePath;
+
+    public string Locale = "en-US";
 }
