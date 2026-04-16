@@ -148,7 +148,8 @@ public static class MsiBuilder
             ReadmeMessage = GetPlainTextMessage(options.InstReadme),
             WelcomeMessage = GetPlainTextMessage(options.InstWelcome),
             LicenseRtfFilePath = GetLicenseRtfPath(options.InstLicense, portableDir.Parent),
-            Locale = options.MsiLocale
+            Locale = options.MsiLocale,
+            UninstallInfoRegKeyGuid = options.MsiUninstallInfoRegKeyGuid
         };
     }
 
