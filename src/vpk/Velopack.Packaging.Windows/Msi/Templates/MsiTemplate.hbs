@@ -127,7 +127,7 @@
         <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1"/>
 
         <!-- Check box for launching -->
-        <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="!(loc.ConclusionLaunchCheckboxText) {{AppTitle}}"/>
+        <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="!(loc.ConclusionLaunchCheckboxText) {{AppTitle}}!(loc.ConclusionLaunchCheckboxText2)"/>
 
         {{#if InstallLocationCurrentUserOnly}}
         <Property Id="WixAppFolder" Value="WixPerUserFolder"/>
