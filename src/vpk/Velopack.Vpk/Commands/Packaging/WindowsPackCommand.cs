@@ -38,6 +38,8 @@ public class WindowsPackCommand : PackCommand
     public string MsiBanner { get; private set; }
     public string MsiLogo { get; private set; }
     public string MsiLocale { get; private set; }
+    public bool MsiRunInstallHookAsAdministrator { get; private set; }
+    public bool MsiRunUninstallHookAsAdministrator { get; private set; }
 
 
     public bool BuildMsi { get; private set; }
@@ -147,6 +149,14 @@ public class WindowsPackCommand : PackCommand
             AddOption<string>(v => MsiLocale = v, "--msiLocale")
                 .SetDefault("en-US")
                 .SetDescription("Set the local of the MSI. en-US or ja-JP is accepted.");
+
+            AddOption<bool>(v => MsiRunInstallHookAsAdministrator = v, "--msiRunInstallHookAsAdministrator")
+                .SetDefault(false)
+                .SetDescription("If set, the MSI runs the install hook as administrator.");
+
+            AddOption<bool>(v => MsiRunUninstallHookAsAdministrator = v, "--msiRunUninstallHookAsAdministrator")
+                .SetDefault(false)
+                .SetDescription("If set, the MSI runs the uninstall hook as administrator.");
         }
     }
 }

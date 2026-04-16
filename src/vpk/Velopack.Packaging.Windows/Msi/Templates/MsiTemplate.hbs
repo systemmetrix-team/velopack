@@ -13,185 +13,187 @@
              {{/if}}
              UpgradeCode="{{UpgradeCodeGuid}}">
 
-        <Media Id="1" Cabinet="app.cab" EmbedCab="yes"/>
+        {{#if AdminRequired}}
+        <Launch Condition="Privileged" Message="(loc.ErrorAdministrativePrivilegeRequired)" />
+        {{/if}}
+
+        <Media Id="1" Cabinet="app.cab" EmbedCab="yes" />
         <StandardDirectory Id="TARGETDIR">
             <Directory Id="INSTALLFOLDER" Name="{{AppTitleSanitized}}" ComponentGuidGenerationSeed="{{ComponentGenerationSeedGuid}}">
-                <Directory Name="current"/>
-                <Directory Id="PACKAGES_DIR" Name="packages"/>
+                <Directory Name="current" />
+                <Directory Id="PACKAGES_DIR" Name="packages" />
             </Directory>
         </StandardDirectory>
 
         {{#if DesktopShortcut}}
-            <StandardDirectory Id="DesktopFolder">
-                <Component Id="ApplicationDesktopShortcut">
-                    <Shortcut Id="ApplicationDesktopShortcut" Name="{{AppTitle}}" Description="Desktop shortcut for {{AppTitle}}"
-                              Target="[INSTALLFOLDER]{{StubFileName}}" WorkingDirectory="INSTALLFOLDER"/>
-                    <RemoveFolder Id="CleanUpDesktopShortcut" Directory="INSTALLFOLDER" On="uninstall"/>
-                    <RegistryValue Root="HKMU" Key="Software&#92;{{AppPublisherSanitized}}&#92;{{AppId}}.DesktopShortcut"
-                                   Name="installed" Type="integer" Value="1" KeyPath="yes"/>
-                </Component>
-            </StandardDirectory>
+        <StandardDirectory Id="DesktopFolder">
+            <Component Id="ApplicationDesktopShortcut">
+                <Shortcut Id="ApplicationDesktopShortcut" Name="{{AppTitle}}" Description="Desktop shortcut for {{AppTitle}}"
+                          Target="[INSTALLFOLDER]{{StubFileName}}" WorkingDirectory="INSTALLFOLDER" />
+                <RemoveFolder Id="CleanUpDesktopShortcut" Directory="INSTALLFOLDER" On="uninstall" />
+                <RegistryValue Root="HKMU" Key="Software&#92;{{AppPublisherSanitized}}&#92;{{AppId}}.DesktopShortcut"
+                               Name="installed" Type="integer" Value="1" KeyPath="yes" />
+            </Component>
+        </StandardDirectory>
         {{/if}}
 
         {{#if StartMenuShortcut}}
-            <!-- Shortcut is placed in Start > Programs > AppPublisher -->
-            <Directory Id="ProgramMenuFolder">
-                <Directory Id="AppPublisherProgramMenuDir" Name="{{AppPublisherSanitized}}"/>
-            </Directory>
-            <DirectoryRef Id="AppPublisherProgramMenuDir">
-                <Component Id="ApplicationStartMenuShortcut">
-                    <Shortcut
-                            Id="ApplicationStartMenuShortcut"
-                            Name="{{AppTitle}}"
-                            Description="Start Menu shortcut for {{AppTitle}}"
-                            Target="[INSTALLFOLDER]{{StubFileName}}"
-                            WorkingDirectory="INSTALLFOLDER"/>
-                    <RemoveFolder Id="CleanUpStartMenuShortcut" Directory="AppPublisherProgramMenuDir" On="uninstall"/>
-                    <RegistryValue Root="HKMU" Key="Software&#92;{{AppPublisherSanitized}}&#92;{{AppId}}.StartMenuShortcut"
-                                   Name="installed" Type="integer" Value="1" KeyPath="yes"/>
-                </Component>
-            </DirectoryRef>
+        <!-- Shortcut is placed in Start > Programs > AppPublisher -->
+        <Directory Id="ProgramMenuFolder">
+            <Directory Id="AppPublisherProgramMenuDir" Name="{{AppPublisherSanitized}}" />
+        </Directory>
+        <DirectoryRef Id="AppPublisherProgramMenuDir">
+            <Component Id="ApplicationStartMenuShortcut">
+                <Shortcut Id="ApplicationStartMenuShortcut"
+                          Name="{{AppTitle}}"
+                          Description="Start Menu shortcut for {{AppTitle}}"
+                          Target="[INSTALLFOLDER]{{StubFileName}}"
+                          WorkingDirectory="INSTALLFOLDER" />
+                <RemoveFolder Id="CleanUpStartMenuShortcut" Directory="AppPublisherProgramMenuDir" On="uninstall" />
+                <RegistryValue Root="HKMU" Key="Software&#92;{{AppPublisherSanitized}}&#92;{{AppId}}.StartMenuShortcut"
+                               Name="installed" Type="integer" Value="1" KeyPath="yes" />
+            </Component>
+        </DirectoryRef>
         {{/if}}
 
         {{#if StartMenuRootShortcut}}
-            <!-- Shortcut is placed directly in Start > Programs -->
-            <StandardDirectory Id="ProgramMenuFolder">
-                <Component Id="ApplicationStartMenuRootShortcut">
-                    <Shortcut
-                            Id="ApplicationStartMenuRootShortcut"
-                            Name="{{AppTitle}}"
-                            Description="Start Menu shortcut for {{AppTitle}}"
-                            Target="[INSTALLFOLDER]{{StubFileName}}"
-                            WorkingDirectory="INSTALLFOLDER"/>
-                    <RegistryValue Root="HKMU" Key="Software&#92;{{AppPublisherSanitized}}&#92;{{AppId}}.StartMenuRootShortcut"
-                                   Name="installed" Type="integer" Value="1" KeyPath="yes"/>
-                </Component>
-            </StandardDirectory>
+        <!-- Shortcut is placed directly in Start > Programs -->
+        <StandardDirectory Id="ProgramMenuFolder">
+            <Component Id="ApplicationStartMenuRootShortcut">
+                <Shortcut Id="ApplicationStartMenuRootShortcut"
+                          Name="{{AppTitle}}"
+                          Description="Start Menu shortcut for {{AppTitle}}"
+                          Target="[INSTALLFOLDER]{{StubFileName}}"
+                          WorkingDirectory="INSTALLFOLDER" />
+                <RegistryValue Root="HKMU" Key="Software&#92;{{AppPublisherSanitized}}&#92;{{AppId}}.StartMenuRootShortcut"
+                               Name="installed" Type="integer" Value="1" KeyPath="yes" />
+            </Component>
+        </StandardDirectory>
 
         {{/if}}
 
         {{#if StartupShortcut}}
-            <StandardDirectory Id="StartupFolder">
-                <Component Id="ApplicationStartupShortcut">
-                    <Shortcut Id="ApplicationStartupShortcut" Name="{{AppTitle}}"
-                              Description="Startup shortcut for {{AppTitle}}"
-                              Target="[INSTALLFOLDER]{{StubFileName}}"
-                              WorkingDirectory="INSTALLFOLDER"/>
-                    <RegistryValue Root="HKMU" Key="Software&#92;{{AppPublisherSanitized}}&#92;{{AppId}}.StartupShortcut"
-                                   Name="installed" Type="integer" Value="1" KeyPath="yes"/>
-                </Component>
-            </StandardDirectory>
+        <StandardDirectory Id="StartupFolder">
+            <Component Id="ApplicationStartupShortcut">
+                <Shortcut Id="ApplicationStartupShortcut" Name="{{AppTitle}}"
+                          Description="Startup shortcut for {{AppTitle}}"
+                          Target="[INSTALLFOLDER]{{StubFileName}}"
+                          WorkingDirectory="INSTALLFOLDER" />
+                <RegistryValue Root="HKMU" Key="Software&#92;{{AppPublisherSanitized}}&#92;{{AppId}}.StartupShortcut"
+                               Name="installed" Type="integer" Value="1" KeyPath="yes" />
+            </Component>
+        </StandardDirectory>
         {{/if}}
 
         {{#if HasIcon}}
-            <Icon Id="appicon" SourceFile="{{IconPath}}"/>
+        <Icon Id="appicon" SourceFile="{{IconPath}}" />
         {{/if}}
 
         <!-- Suppress MSI's default ARP entry (always goes to HKLM regardless of per-user context)
-             and write our own using HKMU (resolves to HKCU for per-user, HKLM for per-machine) -->
-        <Property Id="ARPSYSTEMCOMPONENT" Value="1"/>
+     and write our own using HKMU (resolves to HKCU for per-user, HKLM for per-machine) -->
+        <Property Id="ARPSYSTEMCOMPONENT" Value="1" />
         <DirectoryRef Id="INSTALLFOLDER">
             <Component Id="ArpRegistration">
                 <RegistryKey Root="HKMU" Key="Software&#92;Microsoft&#92;Windows&#92;CurrentVersion&#92;Uninstall&#92;MSI:{{AppId}}">
-                    <RegistryValue Name="DisplayName" Value="{{AppTitle}}" Type="string"/>
-                    <RegistryValue Name="DisplayVersion" Value="{{AppVersion}}" Type="string"/>
-                    <RegistryValue Name="DisplayIcon" Value="[INSTALLFOLDER]{{StubFileName}}" Type="string"/>
-                    <RegistryValue Name="Publisher" Value="{{AppPublisher}}" Type="string"/>
-                    <RegistryValue Name="UninstallString" Value="msiexec.exe /x [ProductCode]" Type="string"/>
-                    <RegistryValue Name="QuietUninstallString" Value="msiexec.exe /x [ProductCode] /qn" Type="string"/>
-                    <RegistryValue Name="InstallLocation" Value="[INSTALLFOLDER]" Type="string"/>
-                    <RegistryValue Name="NoModify" Value="1" Type="integer"/>
-                    <RegistryValue Name="NoRepair" Value="1" Type="integer" KeyPath="yes"/>
+                    <RegistryValue Name="DisplayName" Value="{{AppTitle}}" Type="string" />
+                    <RegistryValue Name="DisplayVersion" Value="{{AppVersion}}" Type="string" />
+                    <RegistryValue Name="DisplayIcon" Value="[INSTALLFOLDER]{{StubFileName}}" Type="string" />
+                    <RegistryValue Name="Publisher" Value="{{AppPublisher}}" Type="string" />
+                    <RegistryValue Name="UninstallString" Value="msiexec.exe /x [ProductCode]" Type="string" />
+                    <RegistryValue Name="QuietUninstallString" Value="msiexec.exe /x [ProductCode] /qn" Type="string" />
+                    <RegistryValue Name="InstallLocation" Value="[INSTALLFOLDER]" Type="string" />
+                    <RegistryValue Name="NoModify" Value="1" Type="integer" />
+                    <RegistryValue Name="NoRepair" Value="1" Type="integer" KeyPath="yes" />
                 </RegistryKey>
             </Component>
         </DirectoryRef>
 
         {{#if HasLicense}}
-            <WixVariable Id="WixUILicenseRtf" Value="{{LicenseRtfFilePath}}"/>
+        <WixVariable Id="WixUILicenseRtf" Value="{{LicenseRtfFilePath}}" />
         {{/if}}
 
         {{#if HasTopBannerImage}}
-            <WixVariable Id="WixUIBannerBmp" Value="{{TopBannerImagePath}}"/>
+        <WixVariable Id="WixUIBannerBmp" Value="{{TopBannerImagePath}}" />
         {{/if}}
 
         {{#if HasSideBannerImage}}
-            <WixVariable Id="WixUIDialogBmp" Value="{{SideBannerImagePath}}"/>
+        <WixVariable Id="WixUIDialogBmp" Value="{{SideBannerImagePath}}" />
         {{/if}}
 
         <!-- Message on last screen after install -->
         {{#if HasConclusionMessage}}
-            <Property Id="WIXUI_EXITDIALOGOPTIONALTEXT" Value="{{ConclusionMessage}}"/>
+        <Property Id="WIXUI_EXITDIALOGOPTIONALTEXT" Value="{{ConclusionMessage}}" />
         {{/if}}
 
         <!-- Default checked state of launch app check box to true -->
-        <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1"/>
+        <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1" />
 
         <!-- Check box for launching -->
-        <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="!(loc.ConclusionLaunchCheckboxText) {{AppTitle}}"/>
+        <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="!(loc.ConclusionLaunchCheckboxText) {{AppTitle}}" />
 
         {{#if InstallLocationCurrentUserOnly}}
-        <Property Id="WixAppFolder" Value="WixPerUserFolder"/>
+        <Property Id="WixAppFolder" Value="WixPerUserFolder" />
         {{else}}
-        <Property Id="WixAppFolder" Value="WixPerMachineFolder"/>
+        <Property Id="WixAppFolder" Value="WixPerMachineFolder" />
         {{/if}}
-        <Property Id="ApplicationFolderName" Value="{{AppId}}"/>
+        <Property Id="ApplicationFolderName" Value="{{AppId}}" />
 
         {{#if InstallLocationEither}}
-            <WixVariable Id="override WixUISupportPerUser" Value="1"/>
-            <WixVariable Id="override WixUISupportPerMachine" Value="1"/>
+        <WixVariable Id="override WixUISupportPerUser" Value="1" />
+        <WixVariable Id="override WixUISupportPerMachine" Value="1" />
         {{/if}}
 
         <UI>
-            <ui:WixUI Id="WixUI_Velopack" InstallDirectory="INSTALLFOLDER"/>
+            <ui:WixUI Id="WixUI_Velopack" InstallDirectory="INSTALLFOLDER" />
 
             <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="RustLaunchApplication"
-                     Condition="WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed"/>
+                     Condition="WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed" />
         </UI>
 
-        <Files Include="{{SourceDirectoryPath}}\**"/>
+        <Files Include="{{SourceDirectoryPath}}\**" />
 
         <!-- Add our custom Rust module for custom actions -->
-        <Binary Id="RustDll" SourceFile="{{RustNativeModulePath}}"/>
-        <Property Id="RustAppId" Value="{{AppTitle}}"/>
-        <Property Id="RustAppTitle" Value="{{AppTitle}}"/>
-        <Property Id="RustAppVersion" Value="{{AppVersion}}"/>
+        <Binary Id="RustDll" SourceFile="{{RustNativeModulePath}}" />
+        <Property Id="RustAppId" Value="{{AppTitle}}" />
+        <Property Id="RustAppTitle" Value="{{AppTitle}}" />
+        <Property Id="RustAppVersion" Value="{{AppVersion}}" />
         {{#if HasRuntimeDependencies}}
-            <Property Id="RustRuntimeDependencies" Value="{{RuntimeDependencies}}"/>
+        <Property Id="RustRuntimeDependencies" Value="{{RuntimeDependencies}}" />
         {{/if}}
-        <Property Id="RustStubFileName" Value="{{StubFileName}}"/>
-        <Property Id="RustMainExeFileName" Value="{{MainExeFileName}}"/>
+        <Property Id="RustStubFileName" Value="{{StubFileName}}" />
+        <Property Id="RustMainExeFileName" Value="{{MainExeFileName}}" />
 
-        <CustomAction Id="RustEarlyBootstrap" BinaryRef="RustDll" DllEntry="EarlyBootstrap" Execute="immediate" Return="check"/>
+        <CustomAction Id="RustEarlyBootstrap" BinaryRef="RustDll" DllEntry="EarlyBootstrap" Execute="immediate" Return="check" />
 
         <!-- deferred actions do not have access to msi properties and read all data from "CustomActionData" which is a string,
-             so we delimit with &quot; which is unlikely (or disallowed) from to appearing in filenames / paths.-->
+     so we delimit with &quot; which is unlikely (or disallowed) from to appearing in filenames / paths.-->
         <CustomAction Id="SetRustCleanupData" Property="RustCleanup" Value="[INSTALLFOLDER]&quot;[RustAppId]&quot;[TempFolder]" Execute="immediate"
-                      Return="check"/>
-        <CustomAction Id="RustCleanup" BinaryRef="RustDll" DllEntry="CleanupDeferred" Execute="deferred" Impersonate="no" Return="ignore"/>
+                      Return="check" />
+        <CustomAction Id="RustCleanup" BinaryRef="RustDll" DllEntry="CleanupDeferred" Execute="deferred" Impersonate="no" Return="ignore" />
         <CustomAction Id="RustLaunchApplication" BinaryRef="RustDll" DllEntry="LaunchApplication" Impersonate="yes" Execute="immediate"
-                      Return="ignore"/>
+                      Return="ignore" />
 
         <!-- Install/uninstall hooks: run app exe with lifecycle flags -->
         <CustomAction Id="SetInstallHookData" Property="InstallHookDeferred"
-                      Value="[INSTALLFOLDER]&quot;[RustMainExeFileName]&quot;[RustAppVersion]" Execute="immediate" Return="check"/>
+                      Value="[INSTALLFOLDER]&quot;[RustMainExeFileName]&quot;[RustAppVersion]" Execute="immediate" Return="check" />
         <CustomAction Id="InstallHookDeferred" BinaryRef="RustDll" DllEntry="InstallHookDeferred" Execute="deferred"
-                      Impersonate="yes" Return="ignore"/>
+                      Impersonate="{{InstallHookImpersonateMode}}" Return="ignore" />
         <CustomAction Id="SetUninstallHookData" Property="UninstallHookDeferred"
-                      Value="[INSTALLFOLDER]&quot;[RustMainExeFileName]&quot;[RustAppVersion]" Execute="immediate" Return="check"/>
+                      Value="[INSTALLFOLDER]&quot;[RustMainExeFileName]&quot;[RustAppVersion]" Execute="immediate" Return="check" />
         <CustomAction Id="UninstallHookDeferred" BinaryRef="RustDll" DllEntry="UninstallHookDeferred" Execute="deferred"
-                      Impersonate="yes" Return="ignore"/>
+                      Impersonate="{{UninstallHookImpersonateMode}}" Return="ignore" />
 
         <InstallUISequence>
-            <Custom Action="RustEarlyBootstrap" Before="AppSearch" Condition="NOT REMOVE AND RustRuntimeDependencies"/>
+            <Custom Action="RustEarlyBootstrap" Before="AppSearch" Condition="NOT REMOVE AND RustRuntimeDependencies" />
         </InstallUISequence>
 
         <InstallExecuteSequence>
-            <Custom Action="SetInstallHookData" Before="InstallHookDeferred" Condition="NOT REMOVE"/>
-            <Custom Action="InstallHookDeferred" After="InstallFiles" Condition="NOT REMOVE"/>
-            <Custom Action="SetUninstallHookData" Before="UninstallHookDeferred" Condition="(REMOVE=&quot;ALL&quot;)"/>
-            <Custom Action="UninstallHookDeferred" Before="RemoveFiles" Condition="(REMOVE=&quot;ALL&quot;)"/>
-            <Custom Action="SetRustCleanupData" Before="RustCleanup" Condition="(REMOVE=&quot;ALL&quot;)"/>
-            <Custom Action="RustCleanup" Before="RemoveFolders" Condition="(REMOVE=&quot;ALL&quot;)"/>
+            <Custom Action="SetInstallHookData" Before="InstallHookDeferred" Condition="NOT REMOVE" />
+            <Custom Action="InstallHookDeferred" After="InstallFiles" Condition="NOT REMOVE" />
+            <Custom Action="SetUninstallHookData" Before="UninstallHookDeferred" Condition="(REMOVE=&quot;ALL&quot;)" />
+            <Custom Action="UninstallHookDeferred" Before="RemoveFiles" Condition="(REMOVE=&quot;ALL&quot;)" />
+            <Custom Action="SetRustCleanupData" Before="RustCleanup" Condition="(REMOVE=&quot;ALL&quot;)" />
+            <Custom Action="RustCleanup" Before="RemoveFolders" Condition="(REMOVE=&quot;ALL&quot;)" />
         </InstallExecuteSequence>
     </Package>
 

@@ -61,4 +61,12 @@ public class MsiTemplateData
     public string SideBannerImagePath;
 
     public string Locale = "en-US";
+
+    public bool AdminRequired => this.InstallForAllUsers || this.RunInstallHookAsAdministrator || this.RunUninstallHookAsAdministrator;
+    
+    public bool RunInstallHookAsAdministrator;
+    public string InstallHookImpersonateMode => this.RunInstallHookAsAdministrator ? "no" : "yes";
+
+    public bool RunUninstallHookAsAdministrator;
+    public string UninstallHookImpersonateMode => this.RunUninstallHookAsAdministrator ? "no" : "yes";
 }
