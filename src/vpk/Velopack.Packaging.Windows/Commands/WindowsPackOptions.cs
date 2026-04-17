@@ -37,7 +37,6 @@ public class WindowsPackOptions : WindowsReleasifyOptions, INugetPackCommand, IP
     public string MsiBanner { get; set; }
     public string MsiLogo { get; set; }
     public string MsiLocale { get; set; }
-    public Guid MsiUninstallInfoRegKeyGuid { get; set; }
 
     public bool BuildMsi { get; set; }
 

@@ -91,7 +91,7 @@
              and write our own using HKMU (resolves to HKCU for per-user, HKLM for per-machine) -->
         <Property Id="ARPSYSTEMCOMPONENT" Value="1"/>
         <DirectoryRef Id="INSTALLFOLDER">
-            <Component Id="ArpRegistration" Guid="{{UninstallInfoRegKeyGuid}}">
+            <Component Id="ArpRegistration">
                 <RegistryKey Root="HKMU" Key="Software&#92;Microsoft&#92;Windows&#92;CurrentVersion&#92;Uninstall&#92;MSI:{{AppId}}">
                     <RegistryValue Name="DisplayName" Value="{{AppTitle}}" Type="string"/>
                     <RegistryValue Name="DisplayVersion" Value="{{AppVersion}}" Type="string"/>
@@ -103,7 +103,6 @@
                     <RegistryValue Name="NoModify" Value="1" Type="integer"/>
                     <RegistryValue Name="NoRepair" Value="1" Type="integer" KeyPath="yes"/>
                 </RegistryKey>
-                <RemoveRegistryKey Root="HKMU" Key="Software&#92;Microsoft&#92;Windows&#92;CurrentVersion&#92;Uninstall&#92;MSI:{{AppId}}" Action="removeOnUninstall" />
             </Component>
         </DirectoryRef>
 

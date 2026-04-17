@@ -38,8 +38,7 @@ public class WindowsPackCommand : PackCommand
     public string MsiBanner { get; private set; }
     public string MsiLogo { get; private set; }
     public string MsiLocale { get; private set; }
-    public Guid MsiUninstallInfoRegKeyGuid { get; set; }
-    
+
 
     public bool BuildMsi { get; private set; }
 
@@ -148,10 +147,6 @@ public class WindowsPackCommand : PackCommand
             AddOption<string>(v => MsiLocale = v, "--msiLocale")
                 .SetDefault("en-US")
                 .SetDescription("Set the local of the MSI. en-US or ja-JP is accepted.");
-
-            AddOption<Guid>(v => MsiUninstallInfoRegKeyGuid = v, "--msiUninstallInfoRegKeyGuid")
-                .SetRequired()
-                .SetDescription("Set the GUID of the uninstall info registry key.");
         }
     }
 }

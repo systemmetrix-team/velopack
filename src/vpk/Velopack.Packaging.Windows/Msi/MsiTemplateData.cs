@@ -61,6 +61,4 @@ public class MsiTemplateData
     public string SideBannerImagePath;
 
     public string Locale = "en-US";
-
-    public Guid UninstallInfoRegKeyGuid;
 }
